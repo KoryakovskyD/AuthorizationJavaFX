@@ -44,17 +44,32 @@ public class Authorization extends Application {
         enterText.add(acceptPasField, 1, 2);
         root.add(enterText, 0, 1);
 
+        FlowPane flowPane2 = new FlowPane();
+        flowPane2.setAlignment(Pos.CENTER);
+        Label bottom = new Label("");
+        flowPane2.getChildren().add(bottom);
+        root.add(flowPane2, 0,3);
+
         FlowPane flowPane1 = new FlowPane();
         flowPane1.setAlignment(Pos.CENTER_RIGHT);
         Button signIn = new Button("Sing in");
+        signIn.setOnAction(e -> {
+            // if UserController.logIn != "" else ...
+            bottom.setText("");
+            String name = nameField.getText();
+            String pass = pasField.getText();
+            String acceptPswField = acceptPasField.getText();
+            try {
+                UserController.checkData(name, pass, acceptPswField);
+                bottom.setText("All fields is valid");
+            } catch (UserException ex) {
+                bottom.setText(ex.getMessage());
+            }
+        });
         flowPane1.getChildren().add(signIn);
         root.add(flowPane1, 0, 2);
 
-        FlowPane flowPane2 = new FlowPane();
-        flowPane2.setAlignment(Pos.CENTER);
-        Label bottom = new Label("Same text");
-        flowPane2.getChildren().add(bottom);
-        root.add(flowPane2, 0,3);
+
 
 
         scene = new Scene(root, 300, 250);
